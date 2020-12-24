@@ -1,0 +1,30 @@
+{
+  "name": "Expense-report-server",
+  "version": "1.0.0",
+  "description": "Expense tracker engine",
+  "main": "index.js",
+  "scripts": {
+    "server": "nodemon index.js",
+    "start": "node index.js",
+    "test": "cross-env DB_ENV=testing jest --watchAll --verbose --runInBand --testTimeout=10000"
+  },
+  "author": "@EralpKor",
+  "license": "ISC",
+  "dependencies": {
+    "bcryptjs": "^2.4.3",
+    "cors": "^2.8.5",
+    "dotenv": "^8.2.0",
+    "express": "^4.17.1",
+    "express-validator": "^6.7.0",
+    "helmet": "^4.2.0",
+    "jsonwebtoken": "^8.5.1",
+    "knex": "^0.21.12",
+    "sqlite3": "^5.0.0"
+  },
+  "devDependencies": {
+    "cross-env": "^7.0.3",
+    "jest": "^26.6.3",
+    "nodemon": "^2.0.6",
+    "supertest": "^6.0.1"
+  }
+}
