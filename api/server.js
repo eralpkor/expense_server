@@ -16,13 +16,6 @@ server.use(helmet());
 server.use(cors(corsOption));
 server.use(express.json());
 
-
-// server.all(function(req, res, next) {
-//   res.header("Access-Control-Allow-Origin", "*");
-//   res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
-//   next();
-// });
-
 server.use('/auth', auth, expenses);
 // server.use('/', expenses)
 
