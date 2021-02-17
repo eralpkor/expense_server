@@ -47,7 +47,7 @@ router.post('/login', loginValidator(), (req, res) => {
     .then(u => {
       if (u && bcrypt.compareSync(password, u.password)) {
         const token = jwt.generateToken(u)
-        res.status(200).json({ message: `Welcome back ${u.username}`, user: u.username, token, id: u.id})
+        res.status(200).json({ message: `Welcome back ${u.username}`, user: u.username, email: u.email, firstname: u.firstname, lastname: u.lastname, token, id: u.id})
       } else {
         res.status(401).json({ message: 'Wrong login credentials.'})
       }
@@ -56,6 +56,13 @@ router.post('/login', loginValidator(), (req, res) => {
       res.status(500).json(err);
     })
 });
+
+// POST /logout user
+router.get('/logout', (req, res) => {
+  req.logout();
+
+  res.redirect('/');
+})
 
 // edit existing user
 router.put('/update', jwt.checkToken(), (req, res) => {
