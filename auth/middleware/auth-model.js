@@ -21,7 +21,7 @@ function addUser(user) {
 
 function findById(id) {
   return db('users')
-    .select('id', 'username', 'email')
+    .select('id', 'username', 'email', 'firstname', 'lastname')
     .where({
       id
     })
@@ -30,7 +30,7 @@ function findById(id) {
 
 function findByName(username) {
   return db('users')
-    .select('username')
+    .select('id', 'username')
     .where({
       username
     })
@@ -62,3 +62,4 @@ function removeUser(id) {
     .where({ id })
     .del();
 }
+
