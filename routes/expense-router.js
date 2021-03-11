@@ -2,13 +2,13 @@ const router = require('express').Router();
 const Expense =require('./expense-model');
 const User = require('../auth/middleware/auth-model');
 const jwt = require('../auth/middleware/jwtAccess');
-const { expenseValidator, checkChanges } = require('./validNewExpense');
+const { expenseValidator, checkChanges } = require('./middleware/validNewExpense');
 
 const { validationResult, check, checkSchema, body } = require('express-validator');
 
 
 // GET return users expenses with matching authorization
-router.get('/', jwt.checkToken(), (req, res) => {
+router.get('/user', jwt.checkToken(), (req, res) => {
   const userId = req.user.subject;
   const userName = req.user.username;
 console.log(userId)
@@ -24,7 +24,7 @@ console.log(userId)
             if (ex.length) {
               res.status(200).json(ex)
             } else {
-              res.status(404).json({ message: `Hello ${userName} you did not create any expenses yet` })
+              res.status(202).json({ message: `Hello ${userName} you did not create any expenses yet` })
             }
           }).catch(err => {
             console.log(err);
@@ -111,7 +111,7 @@ router.delete('/expense/:id', jwt.checkToken(), (req, res) => {
         if (i.user_id === subject) {
           Expense.removeExpense(id)
             .then(e => {
-              res.status(202).json({ message: 'Expense deleted successfully.' })
+              res.status(202).json({ message: `Expense deleted successfully. ${id}` })
             }).catch(err => {console.log(err); res.status(204).json({error: err})})
         } else {
           res.status(404).json({ error: 'Something went wrong.'})
