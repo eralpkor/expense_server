@@ -7,7 +7,6 @@ const jwt = require("./middleware/jwtAccess");
 const { loginValidator, editUserValidator } = require("./validLoginUser");
 const validateNewUser = require("./validNewUser");
 const { validationResult, check } = require("express-validator");
-const checkUserEmail = require("./checkUserEmail");
 
 // POST /auth/register new user
 router.post("/register", validateNewUser, (req, res) => {
