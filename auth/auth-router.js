@@ -4,18 +4,22 @@ require("dotenv").config();
 const HashFactor = parseInt(process.env.HASH) || 8;
 const Users = require("./middleware/auth-model");
 const jwt = require("./middleware/jwtAccess");
-const { loginValidator, editUserValidator } = require("./validLoginUser");
+const { loginValidator } = require("./validLoginUser");
+
 const validateNewUser = require("./validNewUser");
 const { validationResult, check } = require("express-validator");
+const editUserValidator = require('./editUserValidator');
 
 // POST /auth/register new user
 router.post("/register", validateNewUser, (req, res) => {
   const user = req.body;
   console.log("What is user object ", user);
-
+  const username = user.username.toLowerCase();
+  user.username = username;
+  const email = user.email.toLowerCase();
+  user.email = email;
   const hash = bcrypt.hashSync(user.password, HashFactor);
   user.password = hash;
-  // why the FUCK ERRORS EMPTY
 
   Users.addUser(user)
     .then((u) => {
@@ -85,11 +89,7 @@ router.get("/profile", jwt.checkToken(), (req, res) => {
 });
 
 // edit existing user
-router.put(
-  "/update",
-  jwt.checkToken(),
-  editUserValidator(),
-  (req, res, next) => {
+router.put("/update", jwt.checkToken(), editUserValidator, async (req, res) => {
     const errors = validationResult(req);
     const userId = req.user.subject;
     const changes = req.body;
@@ -106,16 +106,6 @@ router.put(
             const hash = bcrypt.hashSync(changes.password, HashFactor);
             changes.password = hash;
           }
-          if (u.email !== changes.email) {
-            Users.findByEmail(changes.email)
-              .then((email) => {
-                res
-                  .status(409)
-                  .json({ error: `${email.email} already exist! ` });
-                res.end();
-              })
-              .catch((err) => console.log(err));
-          } else {
             Users.editById(userId, changes)
               .then((e) => {
                 console.log("User updated ", changes.email, "what is e ", e);
@@ -129,11 +119,8 @@ router.put(
                 console.log(err);
                 res.status(404).json({ error: err });
               });
-          }
         } else {
-          res
-            .status(404)
-            .json({
+          res.status(404).json({
               message: `The server can not find requested resource. User id: ${id}`,
             });
         }
