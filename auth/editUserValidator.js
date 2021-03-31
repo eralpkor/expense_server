@@ -45,40 +45,4 @@ module.exports = async (req, res, next) => {
   errors.length < 1 ? next() : res.status(409).json({ errors: errors })
 }
 
-
-// exports.editUserValidator = (user) => {
-//   return [
-//     check('email')
-//       .trim()
-//       .normalizeEmail()
-//       .isEmail()
-//       .withMessage('Invalid email')
-//       // Custom validation, if email in use or not
-//       .custom(async (id) => {
-//         const userId = await Users.findById(req.user.subject)
-//         console.log('What is userId ', userId)
-//       })
-//       .custom(async (email) => {
-//         console.log('waht is email ' , email)
-//         const existingUser = await Users.findByEmail(email)
-//         console.log(existingUser)
-//         if (existingUser) {
-//           throw new Error('Email already in use!')
-//         }
-//       }),
-//     check('firstname')
-//       // .notEmpty()
-//       // .withMessage('First name is required')
-//       .isLength({ min: 2 })
-//       .withMessage('First name must have 2 characters')
-//       .not()
-//       .custom((val) => /[^a-z ,.'-]+$/i.test(val))
-//       .withMessage('First name cannot contain special chars.'),
-//     check('lastname')
-//       .isLength({ min: 2 })
-//       .withMessage('Last name must have 2 characters')
-//       .not()
-//       .custom((val) => /[^a-z ,.'-]+$/i.test(val))
-//       .withMessage('Last name cannot contain special chars.')
-//   ]
-// }
+// EOF
