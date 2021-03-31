@@ -28,7 +28,7 @@ function checkToken() {
 
     token && jwt.verify(token, process.env.JWT_SECRET, async (err, decoded) => {
       if (err) {
-        res.status(401).json( { errors: [{ token: 'Invalid token, you will need to log back in'}]})
+        res.status(401).json({ errors: 'Invalid token, you will need to log back in'})
       } else {
         req.user = decoded;
         next();
