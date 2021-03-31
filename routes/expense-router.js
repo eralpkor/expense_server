@@ -20,7 +20,6 @@ console.log(userId)
       } else {
         Expense.find(userId)
           .then(ex => {
-            console.log(ex)
             if (ex.length) {
               res.status(200).json(ex)
             } else {
