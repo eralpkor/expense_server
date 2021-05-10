@@ -36,38 +36,15 @@ module.exports = async (req, res, next) => {
     // check if user in database
     await Users.findByName(req.body.username).then(
       (user) => {
-        console.log(user, "Name exoist")
-        user && errors.push({ username: "Username Already Exists!" })
+        user && errors.push({ username: "Username taken" })
       });
     await Users.findByEmail(req.body.email).then(
-      (email) => email && errors.push({ email: "Email Already Exist!" })
+      (email) => email && errors.push({ email: "E-mail already registered" })
     );
   }
 
    // OK we are probably safe to move on send conflict error
    errors.length < 1 ? next() : res.status(409).json({ errors: errors });
 };
-
-// exports.registerValidator = () => {
-//   return [
-//     check('email')
-//       .notEmpty().withMessage('Email cannot be empty')
-//       .isEmail()
-//       .normalizeEmail(),
-//     check('username')
-//       .notEmpty()
-//       .withMessage('username is required')
-//       .isLength({ min: 2 })
-//       .withMessage('Username must be 2 characters')
-//       .not()
-//       .custom((val) => /[^A-za-z0-9\s]/g.test(val))
-//       .withMessage('Username not use uniq characters'),
-//     check('password')
-//       .notEmpty()
-//       .withMessage('password is required')
-//       .isLength({ min: 8 })
-//       .withMessage('password must be 8 characters')
-//   ]
-// }
 
 // EOF
