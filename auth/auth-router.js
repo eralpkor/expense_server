@@ -108,11 +108,12 @@ router.put("/update", jwt.checkToken(), editUserValidator, async (req, res) => {
           }
             Users.editById(userId, changes)
               .then((e) => {
-                console.log("User updated ", changes.email, "what is e ", e);
+                console.log("User updated ", changes.email);
                 res
                   .status(200)
                   .json({
-                    message: `${Object.keys(changes)} updated successfully.`,
+                    // message: `${Object.keys(changes)} updated successfully.`,
+                    message: `${changes.email ? 'E-mail,' : null} ${changes.firstnameame ? 'First name,' : null} ${changes.lastnameame ? 'Last name,' : null} updated successfully.`,
                   });
               })
               .catch((err) => {
